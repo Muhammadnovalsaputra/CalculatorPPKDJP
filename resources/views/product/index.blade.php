@@ -1,0 +1,43 @@
+@extends('app')
+@section('content')
+@section('title', 'Data Categories')
+{{--  @dd($users)  --}}
+<div class="d-flex justify-content-end">
+    <a href="{{ route('product.create') }}" class="btn btn-primary m-4">ADD Product</a>
+</div>
+<table class="table table-bordered">
+    <tr>
+        <th>No</th>
+        <th>Category</th>
+        <th>Photo</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Active</th>
+        <th>Actions</th>
+    </tr>
+    @foreach ($datas as $i => $data)
+        <tr>
+            <td>{{ $i + 1 }}</td>
+            <td>{{ $data->category->category_name }}</td>
+            <td><img width="100" src="{{ asset('storage/' . $data->product_photo) }}" alt="{{ $data->product_photo }}">
+            </td>
+            <td>{{ $data->product_name }}</td>
+            <td>{{ $data->product_price }}</td>
+            <td>{{ $data->is_active }}</td>
+            <td>
+                <a href="{{ route('product.edit', $data->id) }}" class="btn btn-warning btn-sm">Edit</a>
+
+
+                <form action="{{ route('product.destroy', $data->id) }}" method="post"
+                    onsubmit="return confirm('R u sure wanna delete it')" class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+
+                </form>
+
+            </td>
+        </tr>
+    @endforeach
+</table>
+@endsection
